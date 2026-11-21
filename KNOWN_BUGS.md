@@ -7,7 +7,10 @@ The "before" state, with all six bugs present, is committed twice:
 - `13b8573` "Add 4 Nigerian languages + red baseline": first test run, results in [baseline/](baseline/SUMMARY.md)
 - `43d9f4f` "Tighter flows + baseline v2": stricter tests, results in [baseline-v2/](baseline-v2/SUMMARY.md)
 
-All six are fixed in the commit after those.
+All six were fixed by hand in `28f62f3`, then **planted again** (keeping the picker polish and
+centred text) so the test loop (`npm run loop`) has real failures to find. In the loop, Kane finds
+them, Claude Code fixes them, and Kane checks the fix. The `loop round N` commits show what it changed.
+The plant comments are not in the code this time, so the loop has to find each cause itself.
 
 | # | Planted bug | Where | What you saw | Fix |
 |---|-------------|-------|--------------|-----|

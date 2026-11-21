@@ -1,0 +1,137 @@
+{
+  "en": {
+    "signup": {
+      "status": "pass",
+      "round": 0,
+      "reason": "English check before baseline v2"
+    },
+    "airtime": {
+      "status": "pass",
+      "round": 0,
+      "reason": "English check before baseline v2"
+    },
+    "bill": {
+      "status": "pass",
+      "round": 0,
+      "reason": "English check before baseline v2"
+    },
+    "history": {
+      "status": "pass",
+      "round": 0,
+      "reason": "English check before baseline v2"
+    },
+    "empty_history": {
+      "status": "pass",
+      "round": 0,
+      "reason": "English check before baseline v2"
+    }
+  },
+  "pcm": {
+    "signup": {
+      "status": "pass",
+      "round": 0,
+      "reason": ""
+    },
+    "airtime": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Final verification failed: \"the same button now reads exactly \"E dey go...\"\" — bug verdict: Payment-status assertion uses unresolved button-text variable [automation_bug/config_issue, confidence 0.94]"
+    },
+    "bill": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the heading reads exactly \"Payment don enter!\"\" — bug verdict: Pidgin payment confirmation heading renders in English [application_issue/ui_data_defect, confidence 0.97]"
+    },
+    "history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the \"Go back to home\" button text is fully visible and not cut off\" — bug verdict: Payment confirmation return button label is clipped [application_issue/ui_data_defect, confidence 0.97]"
+    },
+    "empty_history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the text below it reads exactly \"You never pay anything yet\"\" — bug verdict: Payment-history empty-state text remains English in Pidgin [application_issue/ui_data_defect, confidence 0.99]"
+    }
+  },
+  "yo": {
+    "signup": {
+      "status": "pass",
+      "round": 0,
+      "reason": ""
+    },
+    "airtime": {
+      "status": "fail",
+      "round": 0,
+      "reason": "The payment completed before the required localized processing label could be verified; the button is no longer present. — bug verdict: Payment processing button uses English label in Yorùbá flow [application_issue/ui_data_defect, confidence 0.91]"
+    },
+    "bill": {
+      "status": "fail",
+      "round": 0,
+      "reason": "After 30 seconds, the heading remains “Payment successful” instead of the required Yoruba text. — bug verdict: Yoruba payment confirmation retains English heading and clips return label [application_issue/ui_data_defect, confidence 0.99]"
+    },
+    "history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the \"Padà sí ojú-ìwé àkọ́kọ́\" button text is fully visible and not cut off\" — bug verdict: Yoruba return-to-home button label is clipped after payment [application_issue/ui_data_defect, confidence 0.98]; category proposal: visual_layout_defect — consider adding to taxonomy"
+    },
+    "empty_history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "The history screen still shows English “No transactions yet,” not the required Yoruba text. — bug verdict: Yoruba history empty state remains in English [application_issue/ui_data_defect, confidence 0.99]"
+    }
+  },
+  "ig": {
+    "signup": {
+      "status": "pass",
+      "round": 0,
+      "reason": ""
+    },
+    "airtime": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Final verification failed: \"the same button now reads exactly \"Ọ na-aga...\"\" — bug verdict: Payment button processing label remains in English [application_issue/ui_data_defect, confidence 0.98]"
+    },
+    "bill": {
+      "status": "fail",
+      "round": 0,
+      "reason": "After waiting, the heading remains “Payment successful” rather than the required Igbo text. — bug verdict: Igbo payment-confirmation heading remains in English [application_issue/ui_data_defect, confidence 0.99]"
+    },
+    "history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the \"Laghachi na ibe mbụ\" button text is fully visible and not cut off\" — bug verdict: Igbo return button label is clipped after payment [application_issue/ui_state_mismatch, confidence 0.98]"
+    },
+    "empty_history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"the heading reads exactly \"Akụkọ azụmahịa\" and the text below it reads exactly \"Enweghị azụmahịa ọ bụla ugbu a\"\" — bug verdict: Igbo transaction empty-state message remains in English [application_issue/ui_data_defect, confidence 0.98]"
+    }
+  },
+  "ha": {
+    "signup": {
+      "status": "fail",
+      "round": 0,
+      "reason": "AP produced no action for 3 consecutive steps"
+    },
+    "airtime": {
+      "status": "fail",
+      "round": 0,
+      "reason": "AP produced no action for 3 consecutive steps"
+    },
+    "bill": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Contradictory localization assertions [automation_bug/config_issue, confidence 0.99]"
+    },
+    "history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Sayi katin waya\"\" — bug verdict: Home-button assertion uses an unresolved label placeholder [automation_bug/config_issue, confidence 0.99]"
+    },
+    "empty_history": {
+      "status": "fail",
+      "round": 0,
+      "reason": "Checkpoint assertion failed: \"The heading reads exactly \"Tarihin ma'amaloli\" and the text below it reads exactly \"Babu ma'amala tukuna\".\" — bug verdict: Transaction-history empty state remains in English [application_issue/ui_data_defect, confidence 0.98]"
+    }
+  }
+}

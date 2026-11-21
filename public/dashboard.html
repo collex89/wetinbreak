@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WetinBreak</title>
+<style>
+  :root {
+    --bg: #0e1512;
+    --panel: #151f1a;
+    --line: #24322b;
+    --text: #eef4f0;
+    --muted: #8fa398;
+    --pass: #1f9d5c;
+    --pass-ink: #eafff2;
+    --fail: #d6453d;
+    --fail-ink: #fff0ee;
+    --run: #f2a900;
+    --run-ink: #2b1d00;
+    --idle: #26332c;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    padding: clamp(16px, 3vw, 40px);
+  }
+  ::selection { background: var(--pass); color: var(--pass-ink); }
+
+  header {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    max-width: 1280px; margin: 0 auto 28px;
+  }
+  .brand { font-size: clamp(1.8rem, 3.4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .brand span { color: var(--pass); }
+  .handle { font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 600; color: var(--muted); }
+
+  .stats {
+    display: flex; gap: clamp(24px, 5vw, 64px); align-items: baseline;
+    max-width: 1280px; margin: 0 auto 28px;
+  }
+  .stat { display: flex; align-items: baseline; gap: 12px; }
+  .stat b { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat small { font-size: clamp(1rem, 1.6vw, 1.3rem); color: var(--muted); font-weight: 600; }
+  .stat .of { color: var(--muted); font-weight: 700; }
+  .bar { flex: 1; height: 10px; background: var(--idle); border-radius: 99px; overflow: hidden; align-self: center; min-width: 0; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--pass); border-radius: inherit; transition: width 600ms var(--ease); }
+
+  .grid {
+    display: grid; grid-template-columns: minmax(110px, 0.9fr) repeat(5, minmax(0, 1fr));
+    gap: clamp(8px, 1vw, 14px); max-width: 1280px; margin: 0 auto;
+  }
+  .col-head, .row-head {
+    font-weight: 700; color: var(--muted); display: flex; align-items: center;
+    font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  }
+  .col-head { justify-content: center; text-align: center; padding-bottom: 4px; }
+  .row-head { flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; }
+  .row-head b { color: var(--text); font-size: clamp(1rem, 1.8vw, 1.45rem); }
+  .row-head code { font: inherit; font-size: 0.85em; }
+
+  .cell {
+    position: relative; min-height: clamp(78px, 11vh, 120px); border-radius: 14px;
+    display: grid; place-items: center; background: var(--idle);
+    border: 1px solid transparent; cursor: default; outline: none;
+    transition: background-color 400ms var(--ease), transform 200ms var(--ease);
+  }
+  .cell:hover, .cell:focus-visible { transform: translateY(-2px); border-color: rgba(255,255,255,0.35); }
+  .cell svg { width: clamp(26px, 3.2vw, 42px); height: auto; }
+  .cell .r { position: absolute; top: 8px; right: 10px; font-size: 0.8rem; font-weight: 700; opacity: 0.75; font-variant-numeric: tabular-nums; }
+  .cell.pass { background: var(--pass); color: var(--pass-ink); }
+  .cell.fail { background: var(--fail); color: var(--fail-ink); }
+  .cell.running { background: var(--run); color: var(--run-ink); animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(242, 169, 0, 0.55); filter: brightness(1); }
+    50% { box-shadow: 0 0 0 10px rgba(242, 169, 0, 0); filter: brightness(1.12); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cell.running { animation: none; outline: 3px solid var(--run-ink); outline-offset: -6px; }
+    .bar i, .cell { transition: none; }
+  }
+
+  .tip {
+    position: fixed; z-index: 10; max-width: 420px; pointer-events: none;
+    background: #f7faf8; color: #102018; border-radius: 12px; padding: 14px 16px;
+    font-size: 1rem; line-height: 1.45; box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    opacity: 0; transform: translateY(4px); transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+  }
+  .tip.on { opacity: 1; transform: none; }
+  .tip b { display: block; margin-bottom: 4px; }
+
+  .stale { max-width: 1280px; margin: 18px auto 0; color: var(--fail); font-weight: 600; min-height: 1.4em; }
+
+  @media (max-width: 900px) {
+    .stats { gap: 24px; }
+    .bar { display: none; }
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 72px repeat(5, minmax(0, 1fr)); }
+    .col-head { font-size: 0.72rem; }
+    .row-head code { display: none; }
+    .cell .r { display: none; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1 class="brand">Wetin<span>Break</span></h1>
+    <div class="handle">@collex89</div>
+  </header>
+
+  <section class="stats" aria-live="polite">
+    <div class="stat"><small>Round</small><b id="round">0</b></div>
+    <div class="stat"><small>Passing</small><b id="passing">0</b><b class="of">/25</b></div>
+    <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  </section>
+
+  <main class="grid" id="grid"></main>
+  <p class="stale" id="stale"></p>
+  <div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+  const LANGS = [
+    ['en', 'English'], ['pcm', 'Pidgin'], ['yo', 'Yorùbá'], ['ig', 'Igbo'], ['ha', 'Hausa'],
+  ]
+  const FLOWS = [
+    ['signup', 'Sign up'], ['airtime', 'Airtime'], ['bill', 'Bill'], ['history', 'History'], ['empty_history', 'Empty history'],
+  ]
+  const ICONS = {
+    pass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    fail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    running: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 4a8 8 0 1 0 8 8"/></svg>',
+    unknown: '',
+  }
+
+  const grid = document.getElementById('grid')
+  const tip = document.getElementById('tip')
+  const cells = {}
+
+  // Build the 5×5 grid once.
+  grid.appendChild(document.createElement('div'))
+  for (const [, name] of FLOWS) {
+    const h = document.createElement('div'); h.className = 'col-head'; h.textContent = name; grid.appendChild(h)
+  }
+  for (const [code, name] of LANGS) {
+    const h = document.createElement('div'); h.className = 'row-head'
+    h.innerHTML = `<b></b><code></code>`; h.querySelector('b').textContent = name; h.querySelector('code').textContent = code
+    grid.appendChild(h)
+    for (const [flow, flowName] of FLOWS) {
+      const c = document.createElement('div')
+      c.className = 'cell'; c.tabIndex = 0
+      c.dataset.title = `${name} · ${flowName}`
+      c.setAttribute('aria-label', `${name} ${flowName}: unknown`)
+      grid.appendChild(c)
+      cells[`${code}/${flow}`] = c
+    }
+  }
+
+  // Tooltip with Kane's reason.
+  const showTip = (c, x, y) => {
+    tip.innerHTML = ''
+    const b = document.createElement('b'); b.textContent = c.dataset.title
+    const p = document.createElement('div'); p.textContent = c.dataset.reason || ''
+    tip.append(b, p); tip.classList.add('on')
+    const w = tip.offsetWidth, h = tip.offsetHeight
+    tip.style.left = Math.min(x + 16, innerWidth - w - 12) + 'px'
+    tip.style.top = Math.min(y + 16, innerHeight - h - 12) + 'px'
+  }
+  grid.addEventListener('mousemove', (e) => {
+    const c = e.target.closest('.cell'); if (c) showTip(c, e.clientX, e.clientY); else tip.classList.remove('on')
+  })
+  grid.addEventListener('mouseleave', () => tip.classList.remove('on'))
+  grid.addEventListener('focusin', (e) => {
+    const c = e.target.closest('.cell'); if (!c) return
+    const r = c.getBoundingClientRect(); showTip(c, r.left, r.bottom)
+  })
+  grid.addEventListener('focusout', () => tip.classList.remove('on'))
+
+  function render(status) {
+    let passing = 0, round = 0
+    for (const [code] of LANGS) {
+      for (const [flow] of FLOWS) {
+        const s = status?.[code]?.[flow] ?? { status: 'unknown' }
+        const c = cells[`${code}/${flow}`]
+        const state = ['pass', 'fail', 'running'].includes(s.status) ? s.status : 'unknown'
+        if (state === 'pass') passing++
+        round = Math.max(round, Number(s.round) || 0)
+        c.className = `cell ${state}`
+        c.innerHTML = ICONS[state] + (s.round ? `<span class="r">R${s.round}</span>` : '')
+        const word = { pass: 'Passed', fail: 'Failed', running: 'Running now', unknown: 'Not run yet' }[state]
+        c.dataset.reason = `${word}${s.round ? ` in round ${s.round}` : s.round === 0 ? ' in baseline' : ''}` +
+          (s.reason ? `: ${s.reason}` : '')
+        c.setAttribute('aria-label', `${c.dataset.title}: ${c.dataset.reason}`)
+      }
+    }
+    document.getElementById('passing').textContent = passing
+    document.getElementById('round').textContent = round
+    document.getElementById('bar').style.width = `${(passing / 25) * 100}%`
+  }
+
+  async function poll() {
+    try {
+      const res = await fetch(`/status.json?t=${Date.now()}`, { cache: 'no-store' })
+      if (!res.ok) throw new Error(res.status)
+      render(await res.json())
+      document.getElementById('stale').textContent = ''
+    } catch {
+      document.getElementById('stale').textContent = 'Waiting for status.json…'
+    }
+  }
+  poll()
+  setInterval(poll, 2000)
+</script>
+</body>
+</html>

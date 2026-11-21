@@ -26,3 +26,8 @@ dist-ssr
 # Kane CLI results
 output-*
 .testmuai/
+
+# Loop: raw Kane streams and screenshots are large; results, runs.jsonl and test-issues.md are kept
+loop-log/raw/
+loop-log/screens/
+public/status.json.tmp
