@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
+import LanguagePicker from '../LanguagePicker'
 
 export default function Home({ user, go }) {
   const { t } = useTranslation()
   return (
     <>
+      <LanguagePicker />
       <header className="brand">
         <h1>{t('welcome', { name: user.name })}</h1>
         <p>{t('what_to_do')}</p>

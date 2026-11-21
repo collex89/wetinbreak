@@ -22,4 +22,8 @@ i18n.use(initReactI18next).init({
   interpolation: { escapeValue: false },
 })
 
+// Keep <html lang> in step so screen readers and fonts use the right language.
+document.documentElement.lang = i18n.resolvedLanguage
+i18n.on('languageChanged', (lng) => { document.documentElement.lang = lng })
+
 export default i18n

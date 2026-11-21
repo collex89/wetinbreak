@@ -27,5 +27,6 @@
   "error_required": "Please fill in every field.",
   "error_phone": "Phone number must be 11 digits.",
   "error_meter": "Meter number must be 11 digits.",
-  "error_amount": "Enter an amount of at least ₦50."
+  "error_amount": "Enter an amount of at least ₦50.",
+  "language": "Language"
 }

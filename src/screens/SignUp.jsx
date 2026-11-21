@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { saveUser } from '../store'
+import LanguagePicker from '../LanguagePicker'
 
 export default function SignUp({ onDone }) {
   const { t } = useTranslation()
@@ -19,6 +20,7 @@ export default function SignUp({ onDone }) {
 
   return (
     <main className="app">
+      <LanguagePicker />
       <header className="brand">
         <h1>{t('app_name')}</h1>
         <p>{t('tagline')}</p>

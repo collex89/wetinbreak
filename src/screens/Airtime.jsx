@@ -55,7 +55,8 @@ export default function Airtime({ go, done }) {
         </label>
         {error && <p className="error" role="alert">{error}</p>}
         <button type="submit" className="primary" disabled={busy}>
-          {busy ? t('processing') : t('pay')}
+          {/* KNOWN BUG (planted): hardcoded English, should be t('processing') */}
+          {busy ? 'Processing...' : t('pay')}
         </button>
       </form>
     </>

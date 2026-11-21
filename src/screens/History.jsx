@@ -10,7 +10,8 @@ export default function History({ go }) {
       <button className="link" onClick={() => go('home')}>← {t('back')}</button>
       <h2>{t('history')}</h2>
       {items.length === 0 ? (
-        <p className="empty">{t('no_transactions')}</p>
+        // KNOWN BUG (planted): hardcoded English, should be t('no_transactions')
+        <p className="empty">No transactions yet</p>
       ) : (
         <ul className="list">
           {items.map((tx) => (
