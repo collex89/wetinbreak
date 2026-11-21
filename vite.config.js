@@ -29,7 +29,7 @@ export default defineConfig({
     watch: {
       // The test loop writes these while Kane is driving the app. Watching them could
       // reload the page mid-test, so the dev server ignores them.
-      ignored: ['**/public/status.json*', '**/loop-log/**', '**/baseline*/**', '**/flows/**'],
+      ignored: ['**/public/status.json*', '**/public/dashboard.html', '**/loop-log/**', '**/baseline*/**', '**/flows/**'],
     },
   },
 })

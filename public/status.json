@@ -103,8 +103,8 @@
     },
     "empty_history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the heading reads exactly \"Akụkọ azụmahịa\" and the text below it reads exactly \"Enweghị azụmahịa ọ bụla ugbu a\"\" — bug verdict: Igbo transaction empty-state message remains in English [application_issue/ui_data_defect, confidence 0.98]"
+      "round": 1,
+      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Zụta kaadị oku\"\" — bug verdict: Igbo airtime button omits required diacritics [application_issue/ui_data_defect, confidence 0.99]"
     }
   },
   "ha": {

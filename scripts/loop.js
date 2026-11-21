@@ -22,11 +22,12 @@ import {
   readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync, rmSync,
   readdirSync, copyFileSync, renameSync, statSync,
 } from 'node:fs'
-import { join, dirname, relative } from 'node:path'
+import { join, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { homedir } from 'node:os'
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
+// LOOP_ROOT lets the edit-scope logic be tested against a throwaway repo.
+const ROOT = process.env.LOOP_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..')
 const LANGS = ['en', 'pcm', 'yo', 'ig', 'ha']
 const FLOWS = ['signup', 'airtime', 'bill', 'history', 'empty_history']
 const MAX_RUNS = 40
@@ -164,7 +165,18 @@ function creditsUsed(raw) {
 function findClaude() {
   if (process.env.CLAUDE_BIN) return process.env.CLAUDE_BIN
   const onPath = spawnSync(process.platform === 'win32' ? 'where' : 'which', ['claude'], { encoding: 'utf8' })
-  if (onPath.status === 0) return onPath.stdout.split(/\r?\n/)[0].trim()
+  if (onPath.status === 0) {
+    const hits = onPath.stdout.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
+    if (process.platform !== 'win32') return hits[0]
+    // Node cannot start npm's claude.cmd wrapper without cmd.exe (which would mangle the
+    // long prompt), so use a real .exe: either on PATH, or the one the npm wrapper calls.
+    const exe = hits.find((h) => h.toLowerCase().endsWith('.exe'))
+    if (exe) return exe
+    for (const h of hits) {
+      const npmExe = join(dirname(h), 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe')
+      if (existsSync(npmExe)) return npmExe
+    }
+  }
   // Fall back to the copy bundled with the Claude desktop app (newest version).
   const base = join(process.env.LOCALAPPDATA || join(homedir(), 'AppData', 'Local'), 'Claude-Data')
   const found = []
@@ -230,25 +242,53 @@ function runClaude(prompt) {
   return { ok, output }
 }
 
-// Revert anything Claude changed outside the allowed files (belt and braces on top of
-// the permission flags), then return the list of allowed files that changed.
-function enforceEditScope() {
-  const changed = sh('git', ['diff', '--name-only']).split(/\r?\n/).filter(Boolean)
-  const untracked = sh('git', ['ls-files', '--others', '--exclude-standard']).split(/\r?\n/).filter(Boolean)
-  const loopOwned = (f) => f.startsWith('loop-log/') || f === 'public/status.json'
-  const kept = []
-  for (const f of changed) {
-    if (loopOwned(f)) continue
-    if (ALLOWED_EDITS.some((re) => re.test(f))) kept.push(f)
-    else {
-      log(`Reverting out-of-scope edit: ${f}`)
-      spawnSync('git', ['checkout', '--', f], { cwd: ROOT })
-    }
+const loopOwned = (f) => f.startsWith('loop-log/') || f === 'public/status.json'
+
+// The exact bytes of every file that differs from HEAD or is untracked (null = deleted).
+// Taken just before the fixer runs, so its edits can be told apart from work that was
+// already uncommitted. Files the loop itself writes are left out.
+export function snapshotDirty() {
+  const names = [
+    ...sh('git', ['diff', '--name-only', 'HEAD']).split(/\r?\n/),
+    ...sh('git', ['ls-files', '--others', '--exclude-standard']).split(/\r?\n/),
+  ].filter((f) => f && !loopOwned(f))
+  const snap = new Map()
+  for (const f of new Set(names)) {
+    const p = join(ROOT, f)
+    snap.set(f, existsSync(p) ? readFileSync(p) : null)
   }
-  for (const f of untracked) {
-    if (loopOwned(f)) continue
-    log(`Removing out-of-scope new file: ${f}`)
-    rmSync(join(ROOT, f), { force: true })
+  return snap
+}
+
+const sameBytes = (a, b) => (a === null || b === null ? a === b : a.equals(b))
+
+// Undo anything the fixer changed outside the allowed files (belt and braces on top of
+// the permission flags), and return the allowed files it changed.
+// Only changes made DURING the fixer's turn count: a file is restored to the bytes it had
+// in `before`, never to HEAD, so uncommitted work from before the turn is never lost.
+export function enforceEditScope(before) {
+  const after = snapshotDirty()
+  const kept = []
+  for (const f of new Set([...before.keys(), ...after.keys()])) {
+    const was = before.has(f) ? before.get(f) : undefined // undefined: matched HEAD before
+    const now = after.has(f) ? after.get(f) : undefined
+    if (was !== undefined && now !== undefined && sameBytes(was, now)) continue // untouched
+    if (ALLOWED_EDITS.some((re) => re.test(f))) {
+      kept.push(f)
+      continue
+    }
+    log(`Undoing out-of-scope change made during the fix: ${f}`)
+    const p = join(ROOT, f)
+    if (was === undefined) {
+      // It matched HEAD (or did not exist) before the fixer ran.
+      if (sh('git', ['ls-files', '--', f])) spawnSync('git', ['checkout', 'HEAD', '--', f], { cwd: ROOT })
+      else rmSync(p, { force: true })
+    } else if (was === null) {
+      rmSync(p, { force: true })
+    } else {
+      mkdirSync(dirname(p), { recursive: true })
+      writeFileSync(p, was)
+    }
   }
   return kept
 }
@@ -276,6 +316,11 @@ function recordTestIssues(round, issues) {
 // ---------- main ----------
 async function main() {
   mkdirSync(LOG_DIR, { recursive: true })
+  const dirtyAtStart = [...snapshotDirty().keys()]
+  if (dirtyAtStart.length) {
+    log(`Note: uncommitted changes the loop will leave alone: ${dirtyAtStart.join(', ')}`)
+    log('      (If the fixer edits one of these, the round commit will include your earlier changes too.)')
+  }
   const status = initialStatus()
   writeJsonAtomic(STATUS_FILE, status)
 
@@ -347,6 +392,7 @@ async function main() {
       break
     }
 
+    const before = snapshotDirty()
     const { ok, output } = runClaude(fixPrompt(appIssues))
     writeFileSync(join(LOG_DIR, `claude-round${round}.txt`), output + '\n')
     if (!ok) {
@@ -354,7 +400,7 @@ async function main() {
       log('Stopping: without a fix there is nothing to rerun.')
       break
     }
-    const files = enforceEditScope()
+    const files = enforceEditScope(before)
     if (!files.length) {
       log('Claude Code changed no app files. Stopping (rerunning unchanged code wastes credits).')
       break
@@ -371,7 +417,10 @@ async function main() {
   log(`Finished: ${all.filter((s) => s === 'pass').length}/25 passing, ${runs} Kane run(s), ~${credits} credits.`)
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+// Run only when started as a script, so tests can import the helpers above.
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}

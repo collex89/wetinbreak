@@ -1,0 +1,13 @@
+I didn't change any files, because the app already shows the exact text the test asks for.
+
+- **The text matches the test exactly.** In `src/locales/ig.json:9`, `buy_airtime` is `"Zụta kaadị oku"`. A search for the exact Unicode characters (ụ U+1EE5, ị U+1ECB) found the same string in `flows/ig/empty_history_test.md:12` and the other Igbo flows. There's no hidden character difference.
+- **The app uses the translation key.** `src/screens/Home.jsx:14` renders `📱 {t('buy_airtime')}`, with no hardcoded English.
+- **The screenshot agrees.** `loop-log/screens/round1/ig-empty_history-3.png` shows the button reading "📱 Zụta kaadị oku", fully visible and not cut off. The test says to ignore the icon.
+
+So Kane's "application issue" label is a false positive. It decided the button "omits required diacritics", probably confusing "oku" (call, so "kaadị oku" means airtime) with "ọkụ" (fire/electricity). If I added the marks Kane wanted, the button would no longer match the test's exact wording and the test would fail for real.
+
+I suggest re-running `ig/empty_history` as is. If it fails the same way again, the problem is in Kane's judgement and should be handled there, not in the app.
+
+SUMMARY: No change: ig airtime text already matches; Kane misjudged
+Denying Bash also turns off the PowerShell tool, so Claude has neither. To use PowerShell, set CLAUDE_CODE_USE_POWERSHELL_TOOL=1.
+[mcp-sdk] SEP-2352: stored OAuth credential has no 'issuer' stamp (pre-upgrade storage or provider not round-tripping the value). SEP-2352 isolation is inactive for this read; ensure your provider round-trips the issuer field.
