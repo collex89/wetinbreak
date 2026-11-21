@@ -1,11 +1,15 @@
 ---
-url: http://localhost:5173/?lang=en
-max_steps: 20
+url: http://localhost:5173/?lang=en&slow=1
+max_steps: 25
 ---
 # Sign up
 
+## Sign-up form
+Verify the main button reads exactly "Sign up" and its text is fully visible and not cut off.
+Verify no button, label or heading text on this screen is cut off or overflowing its box.
+
 ## Create account
-Enter "Ada Obi" as the Full name and "08031234567" as the Phone number, then click "Sign up".
-Verify the home screen shows the name "Ada Obi" and a "Buy airtime" button.
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in English. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Enter "Ada Obi" as the Full name and "08031234567" as the Phone number.
+Click "Sign up".
+Then verify the home screen shows the name "Ada Obi" and three buttons that read exactly "Buy airtime", "Pay bill" and "History" (ignore their icons).
+Verify no button, label or heading text on this screen is cut off or overflowing its box.

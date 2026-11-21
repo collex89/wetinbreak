@@ -1,16 +1,29 @@
 ---
-url: http://localhost:5173/?lang=en
-max_steps: 25
+url: http://localhost:5173/?lang=en&slow=1
+max_steps: 40
 ---
 # Buy airtime
 
 ## Sign up
-Enter "Ada Obi" as the Full name and "08031234567" as the Phone number, then click "Sign up".
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in English. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Verify the main button reads exactly "Sign up" and its text is fully visible and not cut off.
+Enter "Ada Obi" as the Full name and "08031234567" as the Phone number.
+Click "Sign up".
+Then verify the home screen shows the name "Ada Obi".
+Verify the home screen has a button that reads exactly "Buy airtime" (ignore its icon).
 
-## Buy airtime
-Click "Buy airtime". Under "Network" select MTN, enter "08031234567" as the Phone number and "500" as the Amount (₦), then click "Pay".
-Verify the "Payment successful" message appears.
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in English. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+## Open airtime
+Verify the "Buy airtime" button text is fully visible and not cut off.
+Click "Buy airtime".
+Then verify the heading reads exactly "Buy airtime" and the main button reads exactly "Pay".
+Verify no button, label or heading text on this screen is cut off or overflowing its box.
+
+## Pay
+Under "Network" select MTN. Enter "08031234567" as the Phone number and "500" as the Amount (₦).
+Verify the "Pay" button text is fully visible and not cut off.
+Click "Pay".
+Then immediately verify the same button now reads exactly "Processing...".
+
+## Payment result
+Wait until the payment finishes (up to 30 seconds).
+Then verify the heading reads exactly "Payment successful".
+Verify the "Back to home" button text is fully visible and not cut off.

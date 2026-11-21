@@ -1,16 +1,30 @@
 ---
-url: http://localhost:5173/?lang=ha
-max_steps: 25
+url: http://localhost:5173/?lang=ha&slow=1
+max_steps: 40
 ---
 # Pay electricity bill
 
 ## Sign up
-Enter "Ada Obi" as the Cikakken suna and "08031234567" as the Lambar waya, then click "Yi rajista".
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Hausa. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Verify the main button reads exactly "Yi rajista" and its text is fully visible and not cut off.
+Enter "Ada Obi" as the Cikakken suna and "08031234567" as the Lambar waya.
+Click "Yi rajista".
+Then verify the home screen shows the name "Ada Obi".
+Verify the home screen has a button that reads exactly "Sayi katin waya" (ignore its icon).
 
-## Pay bill
-Click "Pay bill". Choose "Ikeja Electric" as the Kamfanin wutar lantarki, enter "12345678901" as the Lambar mita and "2000" as the Adadin kuɗi (₦), then click "Biya".
-Verify the "An biya cikin nasara" message appears.
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Hausa. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+## Open bill
+Verify the "Pay bill" button text is fully visible and not cut off.
+Click "Pay bill".
+Then verify the heading reads exactly "Pay bill" and the main button reads exactly "Biya".
+Verify no button, label or heading text on this screen is cut off or overflowing its box.
+Verify there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.
+
+## Pay
+Choose "Ikeja Electric" as the Kamfanin wutar lantarki. Enter "12345678901" as the Lambar mita and "2000" as the Adadin kuɗi (₦).
+Verify the "Biya" button text is fully visible and not cut off.
+Click "Biya".
+
+## Payment result
+Wait until the payment finishes (up to 30 seconds).
+Then verify the heading reads exactly "An biya cikin nasara".
+Verify the "Koma shafin farko" button text is fully visible and not cut off.
+Verify there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.

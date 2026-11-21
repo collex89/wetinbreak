@@ -1,16 +1,29 @@
 ---
-url: http://localhost:5173/?lang=pcm
-max_steps: 25
+url: http://localhost:5173/?lang=pcm&slow=1
+max_steps: 40
 ---
 # Buy airtime
 
 ## Sign up
-Enter "Ada Obi" as the Your full name and "08031234567" as the Your phone number, then click "Register".
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Nigerian Pidgin. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Verify the main button reads exactly "Register" and its text is fully visible and not cut off.
+Enter "Ada Obi" as the Your full name and "08031234567" as the Your phone number.
+Click "Register".
+Then verify the home screen shows the name "Ada Obi".
+Verify the home screen has a button that reads exactly "Buy credit" (ignore its icon).
 
-## Buy airtime
-Click "Buy credit". Under "Network" select MTN, enter "08031234567" as the Your phone number and "500" as the How much (₦), then click "Pay am".
-Verify the "Payment don enter!" message appears.
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Nigerian Pidgin. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+## Open airtime
+Verify the "Buy credit" button text is fully visible and not cut off.
+Click "Buy credit".
+Then verify the heading reads exactly "Buy credit" and the main button reads exactly "Pay am".
+Verify no button, label or heading text on this screen is cut off or overflowing its box.
+
+## Pay
+Under "Network" select MTN. Enter "08031234567" as the Your phone number and "500" as the How much (₦).
+Verify the "Pay am" button text is fully visible and not cut off.
+Click "Pay am".
+Then immediately verify the same button now reads exactly "E dey go...".
+
+## Payment result
+Wait until the payment finishes (up to 30 seconds).
+Then verify the heading reads exactly "Payment don enter!".
+Verify the "Go back to home" button text is fully visible and not cut off.

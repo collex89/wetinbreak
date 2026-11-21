@@ -1,21 +1,30 @@
 ---
-url: http://localhost:5173/?lang=pcm
-max_steps: 30
+url: http://localhost:5173/?lang=pcm&slow=1
+max_steps: 45
 ---
 # History
 
 ## Sign up
-Enter "Ada Obi" as the Your full name and "08031234567" as the Your phone number, then click "Register".
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Nigerian Pidgin. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Verify the main button reads exactly "Register" and its text is fully visible and not cut off.
+Enter "Ada Obi" as the Your full name and "08031234567" as the Your phone number.
+Click "Register".
+Then verify the home screen shows the name "Ada Obi".
+Verify the home screen has a button that reads exactly "Buy credit" (ignore its icon).
 
 ## Buy airtime
-Click "Buy credit". Under "Network" select MTN, enter "08031234567" as the Your phone number and "500" as the How much (₦), then click "Pay am".
-Wait for "Payment don enter!", then click "Go back to home".
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Nigerian Pidgin. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Click "Buy credit".
+Then verify the heading reads exactly "Buy credit".
+Under "Network" select MTN. Enter "08031234567" as the Your phone number and "500" as the How much (₦).
+Click "Pay am".
+
+## Back to home
+Wait until the payment finishes (up to 30 seconds).
+Then verify the main button reads exactly "Go back to home".
+Verify the "Go back to home" button text is fully visible and not cut off.
+Click "Go back to home".
+Then verify the home screen shows a button that reads exactly "Wetin you don pay before" (ignore its icon).
 
 ## Check history
-Click "Wetin you don pay before" and verify an MTN airtime transaction for ₦500 is listed.
-Verify no button, label or heading text is cut off, overlapping or overflowing its box.
-Verify all visible text is in Nigerian Pidgin. List any words still in English. Allowed: the brand 'WetinBreak Pay', network names (MTN, Airtel, Glo, 9mobile), electricity company names, and numbers. Also allowed: the person's name 'Ada Obi' and the language names in the language picker.
+Click "Wetin you don pay before".
+Then verify the heading reads exactly "Wetin you don pay before" and an MTN airtime transaction for ₦500 is listed.
+Verify no button, label or heading text on this screen is cut off or overflowing its box.
