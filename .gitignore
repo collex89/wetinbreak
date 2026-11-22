@@ -31,3 +31,6 @@ output-*
 loop-log/raw/
 loop-log/screens/
 public/status.json.tmp
+
+# Android builds (APKs)
+builds/
