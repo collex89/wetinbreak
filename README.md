@@ -3,7 +3,7 @@
 **An AI agent translates an app into Nigerian Pidgin, Yoruba, Igbo and Hausa. Kane CLI checks every
 flow in every language. The agent fixes what Kane finds, and the loop repeats until everything passes.**
 
-- Live demo: `TODO: https://<your-project>.vercel.app` (the dashboard is at `/dashboard.html`)
+- Live demo: https://wetinbreak.vercel.app · test dashboard (replay of a real run): https://wetinbreak.vercel.app/dashboard.html
 - Demo video: `TODO: https://youtu.be/<id>`
 - Launch posts: `TODO: X / LinkedIn links`
 
