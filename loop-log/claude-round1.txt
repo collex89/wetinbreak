@@ -1,13 +1,15 @@
-I didn't change any files, because the app already shows the exact text the test asks for.
+I've fixed all nine failures, but I haven't re-run the Kane tests, so it's not confirmed yet that they pass.
 
-- **The text matches the test exactly.** In `src/locales/ig.json:9`, `buy_airtime` is `"Zụta kaadị oku"`. A search for the exact Unicode characters (ụ U+1EE5, ị U+1ECB) found the same string in `flows/ig/empty_history_test.md:12` and the other Igbo flows. There's no hidden character difference.
-- **The app uses the translation key.** `src/screens/Home.jsx:14` renders `📱 {t('buy_airtime')}`, with no hardcoded English.
-- **The screenshot agrees.** `loop-log/screens/round1/ig-empty_history-3.png` shows the button reading "📱 Zụta kaadị oku", fully visible and not cut off. The test says to ignore the icon.
+**Hardcoded English swapped for `t('key')`** (yo, ig and ha already had these keys translated):
+- `src/screens/Airtime.jsx`: the busy label `'Processing...'` now uses `t('processing')`. This fixes yo, ig and ha / airtime.
+- `src/screens/Success.jsx`: the `Payment successful` heading now uses `t('payment_successful')`. This fixes yo and ig / bill.
+- `src/screens/History.jsx`: the `No transactions yet` empty text now uses `t('no_transactions')`. This fixes yo and ig / empty_history.
 
-So Kane's "application issue" label is a false positive. It decided the button "omits required diacritics", probably confusing "oku" (call, so "kaadị oku" means airtime) with "ọkụ" (fire/electricity). If I added the marks Kane wanted, the button would no longer match the test's exact wording and the test would fail for real.
+**Buttons that clipped their labels** (`src/index.css`). This fixes ig and ha / history:
+- `.primary` was a fixed `width: 140px` with `nowrap` and `overflow: hidden`, which cut off "Laghachi na ibe mbụ" and "Koma shafin farko". It now takes the full width, wraps, and keeps its `min-height`.
+- `.tile` had the same problem with a fixed `height: 60px` and `overflow: hidden`. It's now `min-height: 60px`, so it grows with its label.
 
-I suggest re-running `ig/empty_history` as is. If it fails the same way again, the problem is in Kane's judgement and should be handled there, not in the app.
+**One thing for you to decide:** `src/locales/ha.json` has no `pay_bill` key, so it doesn't match `en.json`. I left it alone on purpose: `flows/ha/bill_test.md` checks that the heading reads exactly "Pay bill", which is the English fallback. Adding a Hausa translation would break that test, and I'm not allowed to edit flows. Fixing it properly means adding the key and updating that test together.
 
-SUMMARY: No change: ig airtime text already matches; Kane misjudged
+SUMMARY: Translated 3 hardcoded strings; buttons now fit labels
 Denying Bash also turns off the PowerShell tool, so Claude has neither. To use PowerShell, set CLAUDE_CODE_USE_POWERSHELL_TOOL=1.
-[mcp-sdk] SEP-2352: stored OAuth credential has no 'issuer' stamp (pre-upgrade storage or provider not round-tripping the value). SEP-2352 isolation is inactive for this read; ensure your provider round-trips the issuer field.

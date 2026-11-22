@@ -9,7 +9,7 @@ export default function Success({ message, go }) {
           <path d="M5 12.5l4.5 4.5L19 7.5" />
         </svg>
       </div>
-      <h2>Payment successful</h2>
+      <h2>{t('payment_successful')}</h2>
       <p>{message}</p>
       <button className="primary" onClick={() => go('home')}>{t('back_home')}</button>
     </div>

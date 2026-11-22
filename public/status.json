@@ -34,23 +34,23 @@
     },
     "airtime": {
       "status": "fail",
-      "round": 0,
-      "reason": "Final verification failed: \"the same button now reads exactly \"E dey go...\"\" — bug verdict: Payment-status assertion uses unresolved button-text variable [automation_bug/config_issue, confidence 0.94]"
+      "round": 1,
+      "reason": "Kane produced no Result.md"
     },
     "bill": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the heading reads exactly \"Payment don enter!\"\" — bug verdict: Pidgin payment confirmation heading renders in English [application_issue/ui_data_defect, confidence 0.97]"
+      "round": 1,
+      "reason": "Kane produced no Result.md"
     },
     "history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the \"Go back to home\" button text is fully visible and not cut off\" — bug verdict: Payment confirmation return button label is clipped [application_issue/ui_data_defect, confidence 0.97]"
+      "round": 1,
+      "reason": "Kane produced no Result.md"
     },
     "empty_history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the text below it reads exactly \"You never pay anything yet\"\" — bug verdict: Payment-history empty-state text remains English in Pidgin [application_issue/ui_data_defect, confidence 0.99]"
+      "round": 1,
+      "reason": "navigate_node: post-nav capture failed: TimeoutError: screenshot: Timeout 60000ms exceeded."
     }
   },
   "yo": {
@@ -61,23 +61,23 @@
     },
     "airtime": {
       "status": "fail",
-      "round": 0,
-      "reason": "The payment completed before the required localized processing label could be verified; the button is no longer present. — bug verdict: Payment processing button uses English label in Yorùbá flow [application_issue/ui_data_defect, confidence 0.91]"
+      "round": 1,
+      "reason": "After clicking Sanwó, the button showed \"Processing...\" then the payment-success page, never the required Yoruba processing label. — bug verdict: Yoruba payment processing label remains in English [application_issue/ui_data_defect, confidence 0.99]"
     },
     "bill": {
       "status": "fail",
-      "round": 0,
-      "reason": "After 30 seconds, the heading remains “Payment successful” instead of the required Yoruba text. — bug verdict: Yoruba payment confirmation retains English heading and clips return label [application_issue/ui_data_defect, confidence 0.99]"
+      "round": 1,
+      "reason": "After 30 seconds, the payment finished but its heading remains English “Payment successful,” not the required Yoruba text. — bug verdict: Yoruba payment-success heading remains in English [application_issue/ui_data_defect, confidence 0.99]"
     },
     "history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the \"Padà sí ojú-ìwé àkọ́kọ́\" button text is fully visible and not cut off\" — bug verdict: Yoruba return-to-home button label is clipped after payment [application_issue/ui_data_defect, confidence 0.98]; category proposal: visual_layout_defect — consider adding to taxonomy"
+      "round": 1,
+      "reason": "Screenshot failed: TimeoutError: screenshot: Timeout 60000ms exceeded."
     },
     "empty_history": {
       "status": "fail",
-      "round": 0,
-      "reason": "The history screen still shows English “No transactions yet,” not the required Yoruba text. — bug verdict: Yoruba history empty state remains in English [application_issue/ui_data_defect, confidence 0.99]"
+      "round": 1,
+      "reason": "The history heading loaded, but the required Yoruba body text remains the English text “No transactions yet”. — bug verdict: Yoruba transaction-history empty state remains in English [application_issue/ui_data_defect, confidence 0.99]"
     }
   },
   "ig": {
@@ -88,50 +88,50 @@
     },
     "airtime": {
       "status": "fail",
-      "round": 0,
-      "reason": "Final verification failed: \"the same button now reads exactly \"Ọ na-aga...\"\" — bug verdict: Payment button processing label remains in English [application_issue/ui_data_defect, confidence 0.98]"
+      "round": 1,
+      "reason": "The page transitioned from English “Processing...” to success; the required “Ọ na-aga...” label never appeared. — bug verdict: Igbo payment processing label remains in English [application_issue/ui_data_defect, confidence 0.96]"
     },
     "bill": {
       "status": "fail",
-      "round": 0,
-      "reason": "After waiting, the heading remains “Payment successful” rather than the required Igbo text. — bug verdict: Igbo payment-confirmation heading remains in English [application_issue/ui_data_defect, confidence 0.99]"
+      "round": 1,
+      "reason": "After 30 seconds, the completion heading remains English rather than the required Igbo text. — bug verdict: Igbo payment-success heading remains in English [application_issue/ui_data_defect, confidence 0.99]"
     },
     "history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"the \"Laghachi na ibe mbụ\" button text is fully visible and not cut off\" — bug verdict: Igbo return button label is clipped after payment [application_issue/ui_state_mismatch, confidence 0.98]"
+      "round": 1,
+      "reason": "Checkpoint assertion failed: \"the \"Laghachi na ibe mbụ\" button text is fully visible and not cut off\" — bug verdict: Igbo return-to-home button clips its label [application_issue/ui_data_defect, confidence 0.99]; category proposal: layout_defect — consider adding to taxonomy"
     },
     "empty_history": {
       "status": "fail",
       "round": 1,
-      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Zụta kaadị oku\"\" — bug verdict: Igbo airtime button omits required diacritics [application_issue/ui_data_defect, confidence 0.99]"
+      "reason": "Checkpoint assertion failed: \"the heading reads exactly \"Akụkọ azụmahịa\" and the text below it reads exactly \"Enweghị azụmahịa ọ bụla ugbu a\"\" — bug verdict: Igbo transaction-history empty state remains in English [application_issue/ui_data_defect, confidence 0.98]"
     }
   },
   "ha": {
     "signup": {
       "status": "fail",
-      "round": 0,
-      "reason": "AP produced no action for 3 consecutive steps"
+      "round": 1,
+      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Conflicting home-screen localization assertions [automation_bug/config_issue, confidence 0.98]"
     },
     "airtime": {
       "status": "fail",
-      "round": 0,
-      "reason": "AP produced no action for 3 consecutive steps"
+      "round": 1,
+      "reason": "Final verification failed: \"The same button now reads exactly \"Ana aiki...\".\" — bug verdict: Hausa payment processing label remains in English [application_issue/ui_data_defect, confidence 0.98]"
     },
     "bill": {
       "status": "fail",
-      "round": 0,
-      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Contradictory localization assertions [automation_bug/config_issue, confidence 0.99]"
+      "round": 1,
+      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Contradictory English-text assertion on Pay bill screen [automation_bug/config_issue, confidence 0.98]"
     },
     "history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Sayi katin waya\"\" — bug verdict: Home-button assertion uses an unresolved label placeholder [automation_bug/config_issue, confidence 0.99]"
+      "round": 1,
+      "reason": "Checkpoint assertion failed: \"the \"Koma shafin farko\" button text is fully visible and not cut off.\" — bug verdict: Hausa return-button label is clipped on payment success [application_issue/ui_data_defect, confidence 0.98]; category proposal: ui_layout_defect — consider adding to taxonomy"
     },
     "empty_history": {
       "status": "fail",
-      "round": 0,
-      "reason": "Checkpoint assertion failed: \"The heading reads exactly \"Tarihin ma'amaloli\" and the text below it reads exactly \"Babu ma'amala tukuna\".\" — bug verdict: Transaction-history empty state remains in English [application_issue/ui_data_defect, confidence 0.98]"
+      "round": 1,
+      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Sayi katin waya\"\" — bug verdict: Home-screen action button assertion missed visible control [automation_bug/locator_rot, confidence 0.96]"
     }
   }
 }
