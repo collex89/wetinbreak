@@ -28,5 +28,6 @@
   "error_phone": "Phone number must be 11 numbers.",
   "error_meter": "Meter number must be 11 numbers.",
   "error_amount": "Put at least ₦50.",
-  "language": "Language"
+  "language": "Language",
+  "dashboard_link": "Look di test dashboard"
 }

@@ -119,8 +119,12 @@ function findResultDir(lang, flow) {
 // ---------- status ----------
 function initialStatus() {
   if (existsSync(STATUS_FILE)) return JSON.parse(readFileSync(STATUS_FILE, 'utf8'))
-  // Start from baseline-v2. English is not in it: all 5 English flows passed
-  // in the check that ran just before baseline v2.
+  return baselineStatus()
+}
+
+// The red starting point: baseline-v2's results. English is not in it: all 5 English
+// flows passed in the check that ran just before baseline v2. (Also used by demo-reset.)
+export function baselineStatus() {
   const status = {}
   for (const lang of LANGS) {
     status[lang] = {}

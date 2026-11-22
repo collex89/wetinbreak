@@ -96,6 +96,20 @@
 
   .stale { max-width: 1280px; margin: 18px auto 0; color: var(--fail); font-weight: 600; min-height: 1.4em; }
 
+  .replay {
+    display: none; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    max-width: 1280px; margin: 0 auto 20px; color: var(--muted); font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  }
+  .replay.on { display: flex; }
+  .replay button {
+    font: inherit; font-weight: 700; color: var(--run-ink); background: var(--run); border: 0;
+    border-radius: 999px; padding: 8px 18px; min-height: 40px; cursor: pointer;
+    transition: filter 160ms var(--ease);
+  }
+  .replay button:hover { filter: brightness(1.08); }
+  .replay button:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+  .replay button:disabled { opacity: 0.6; cursor: default; }
+
   @media (max-width: 900px) {
     .stats { gap: 24px; }
     .bar { display: none; }
@@ -119,6 +133,11 @@
     <div class="stat"><small>Passing</small><b id="passing">0</b><b class="of">/25</b></div>
     <div class="bar" aria-hidden="true"><i id="bar"></i></div>
   </section>
+
+  <div class="replay" id="replay">
+    <span id="replay-note"></span>
+    <button type="button" id="replay-btn">Replay</button>
+  </div>
 
   <main class="grid" id="grid"></main>
   <p class="stale" id="stale"></p>
@@ -203,18 +222,69 @@
     document.getElementById('bar').style.width = `${(passing / 25) * 100}%`
   }
 
+  // ---------- Live mode: poll status.json while the loop runs ----------
+  async function fetchStatus() {
+    const res = await fetch(`/status.json?t=${Date.now()}`, { cache: 'no-store' })
+    if (!res.ok || !(res.headers.get('content-type') || '').includes('json')) throw new Error(res.status)
+    return res.json()
+  }
   async function poll() {
     try {
-      const res = await fetch(`/status.json?t=${Date.now()}`, { cache: 'no-store' })
-      if (!res.ok) throw new Error(res.status)
-      render(await res.json())
+      render(await fetchStatus())
       document.getElementById('stale').textContent = ''
     } catch {
       document.getElementById('stale').textContent = 'Waiting for status.json…'
     }
   }
-  poll()
-  setInterval(poll, 2000)
+
+  // ---------- Replay mode: play back a recorded loop, about one run per second ----------
+  const STEP_MS = 1000
+  let timers = []
+  function playReplay(data) {
+    timers.forEach(clearTimeout); timers = []
+    const btn = document.getElementById('replay-btn')
+    const status = structuredClone(data.baseline)
+    render(status)
+    btn.disabled = true
+    data.runs.forEach((run, i) => {
+      const at = (i + 1) * STEP_MS
+      timers.push(setTimeout(() => {
+        status[run.lang][run.flow] = { status: 'running', round: run.round, reason: '' }
+        render(status)
+      }, at - STEP_MS * 0.6))
+      timers.push(setTimeout(() => {
+        const reason = [run.note, run.reason].filter(Boolean).join('. ')
+        status[run.lang][run.flow] = { status: run.status, round: run.round, reason }
+        render(status)
+        if (i === data.runs.length - 1) btn.disabled = false
+      }, at))
+    })
+  }
+  async function startReplay() {
+    try {
+      const res = await fetch('/replay.json', { cache: 'no-store' })
+      if (!res.ok) throw new Error(res.status)
+      const data = await res.json()
+      document.getElementById('replay-note').textContent = `Replay of a real Kane CLI run, ${data.date}`
+      document.getElementById('replay').classList.add('on')
+      document.getElementById('replay-btn').onclick = () => playReplay(data)
+      document.getElementById('stale').textContent = ''
+      playReplay(data)
+    } catch {
+      document.getElementById('stale').textContent = 'No live status and no replay available.'
+    }
+  }
+
+  // ?replay=1, or no live status.json (the deployed site), plays the recording.
+  ;(async () => {
+    if (new URLSearchParams(location.search).get('replay') === '1') return startReplay()
+    try {
+      render(await fetchStatus())
+    } catch {
+      return startReplay()
+    }
+    setInterval(poll, 2000)
+  })()
 </script>
 </body>
 </html>

@@ -5,7 +5,8 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // Build output, the Capacitor Android project (it holds a copy of dist) and APKs.
+  globalIgnores(['dist', 'android', 'builds']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

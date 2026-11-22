@@ -60,3 +60,5 @@ button { font: inherit; cursor: pointer; }
 .list small { display: block; color: #5b6b62; margin-top: 4px; }
 .amount { font-weight: 700; }
 .empty { color: #5b6b62; }
+.home-footer { margin-top: 28px; text-align: center; font-size: 0.9rem; }
+.home-footer a { color: var(--green-dark); font-weight: 600; text-underline-offset: 3px; }

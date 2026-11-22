@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -22,9 +22,19 @@ const liveStatus = {
   },
 }
 
+// status.json is the local loop's live state. Leave it out of the deployed build, so the
+// hosted dashboard finds no live status and plays back public/replay.json instead.
+const noLiveStatusInBuild = {
+  name: 'no-live-status-in-build',
+  apply: 'build',
+  async closeBundle() {
+    await rm(new URL('./dist/status.json', import.meta.url), { force: true })
+  },
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), liveStatus],
+  plugins: [react(), liveStatus, noLiveStatusInBuild],
   server: {
     watch: {
       // The test loop writes these while Kane is driving the app. Watching them could

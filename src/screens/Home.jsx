@@ -15,6 +15,9 @@ export default function Home({ user, go }) {
         <button className="tile" onClick={() => go('bill')}>💡 {t('pay_bill')}</button>
         <button className="tile" onClick={() => go('history')}>🧾 {t('history')}</button>
       </div>
+      <footer className="home-footer">
+        <a href="/dashboard.html">{t('dashboard_link')}</a>
+      </footer>
     </>
   )
 }
