@@ -12,9 +12,9 @@ Then verify the home screen shows the name "Ada Obi".
 Verify the home screen has a button that reads exactly "Sayi katin waya" (ignore its icon).
 
 ## Open bill
-Verify the "Pay bill" button text is fully visible and not cut off.
-Click "Pay bill".
-Then verify the heading reads exactly "Pay bill" and the main button reads exactly "Biya".
+Verify the "Biya kuɗin wuta" button text is fully visible and not cut off.
+Click "Biya kuɗin wuta".
+Then verify the heading reads exactly "Biya kuɗin wuta" and the main button reads exactly "Biya".
 Verify no button, label or heading text on this screen is cut off or overflowing its box.
 Verify there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.
 

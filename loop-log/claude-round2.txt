@@ -1,0 +1,2 @@
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
+Denying Bash also turns off the PowerShell tool, so Claude has neither. To use PowerShell, set CLAUDE_CODE_USE_POWERSHELL_TOOL=1.

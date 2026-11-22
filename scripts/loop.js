@@ -50,6 +50,31 @@ const argValue = (name) => {
 const ONLY = argValue('--only') // e.g. "ig/airtime"
 const MAX_ROUNDS = Number(argValue('--rounds') || MAX_ROUNDS_DEFAULT)
 const DRY = args.includes('--dry')
+// --resume: a previous loop died part-way through round 1 with no fix committed since.
+// Reuse its round-1 failures from runs.jsonl instead of paying to rerun unchanged code.
+const RESUME = args.includes('--resume')
+
+function resumedFailures() {
+  if (!existsSync(RUNS_FILE)) return new Map()
+  const last = new Map()
+  for (const line of readFileSync(RUNS_FILE, 'utf8').split(/\r?\n/)) {
+    if (!line.trim()) continue
+    const r = JSON.parse(line)
+    if (r.round === 1) last.set(`${r.lang}/${r.flow}`, r)
+  }
+  const out = new Map()
+  for (const [key, r] of last) {
+    if (r.status !== 'fail') continue
+    const resultCopy = `loop-log/results/round1/${r.lang}/${r.flow}.md`
+    const screens = [1, 2, 3].map((i) => `loop-log/screens/round1/${r.lang}-${r.flow}-${i}.png`)
+      .filter((p) => existsSync(join(ROOT, p)))
+    out.set(key, {
+      lang: r.lang, flow: r.flow, status: 'fail', label: r.label, failedStep: r.failedStep, reason: r.reason,
+      resultCopy: existsSync(join(ROOT, resultCopy)) ? resultCopy : null, screens,
+    })
+  }
+  return out
+}
 
 // ---------- small helpers ----------
 const log = (...m) => console.log(`[loop ${new Date().toLocaleTimeString()}]`, ...m)
@@ -333,14 +358,25 @@ async function main() {
   let runs = 0
   let credits = 0
   for (let round = 1; round <= MAX_ROUNDS && pairs.length; round++) {
-    if (runs + pairs.length > MAX_RUNS) {
+    const toRun = round === 1 && RESUME ? pairs.filter((p) => !resumedFailures().has(`${p.lang}/${p.flow}`)).length : pairs.length
+    if (runs + toRun > MAX_RUNS) {
       log(`CREDIT GUARD: round ${round} needs ${pairs.length} runs, ${runs} already done, limit ${MAX_RUNS}. Stopping.`)
       break
     }
     log(`===== Round ${round}: ${pairs.length} run(s) =====`)
     const failures = []
+    const reused = round === 1 && RESUME ? resumedFailures() : new Map()
+    if (reused.size) log(`Resuming: reusing ${reused.size} round-1 result(s) from runs.jsonl (no Kane run, no credits).`)
 
     for (const { lang, flow } of pairs) {
+      const prev = reused.get(`${lang}/${flow}`)
+      if (prev) {
+        failures.push(prev)
+        status[lang][flow] = { status: 'fail', round, reason: prev.reason }
+        writeJsonAtomic(STATUS_FILE, status)
+        log(`  ${lang}/${flow}: FAIL (reused) [${prev.label}] ${prev.reason}`)
+        continue
+      }
       status[lang][flow] = { status: 'running', round, reason: '' }
       writeJsonAtomic(STATUS_FILE, status)
       log(`Kane: ${lang}/${flow} ...`)
