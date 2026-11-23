@@ -11,9 +11,10 @@ export default function Home({ user, go }) {
         <p>{t('what_to_do')}</p>
       </header>
       <div className="menu">
-        <button className="tile" onClick={() => go('airtime')}>📱 {t('buy_airtime')}</button>
-        <button className="tile" onClick={() => go('bill')}>💡 {t('pay_bill')}</button>
-        <button className="tile" onClick={() => go('history')}>🧾 {t('history')}</button>
+        {/* The icon is drawn by CSS, so the button's text and accessible name are just the label. */}
+        <button className="tile" data-icon="📱" onClick={() => go('airtime')}>{t('buy_airtime')}</button>
+        <button className="tile" data-icon="💡" onClick={() => go('bill')}>{t('pay_bill')}</button>
+        <button className="tile" data-icon="🧾" onClick={() => go('history')}>{t('history')}</button>
       </div>
       <footer className="home-footer">
         <a href="/dashboard.html">{t('dashboard_link')}</a>

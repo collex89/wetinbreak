@@ -1,5 +1,5 @@
 {
-  "date": "21 Nov 2026 to 22 Nov 2026",
+  "date": "21 Nov 2026 to 23 Nov 2026",
   "baseline": {
     "en": {
       "signup": {
@@ -488,6 +488,83 @@
       "credits": null,
       "reason": "",
       "note": "Manual recheck after adding the Hausa pay_bill key"
+    },
+    {
+      "ts": "2026-11-23T20:18:13.327Z",
+      "round": 3,
+      "lang": "ha",
+      "flow": "signup",
+      "status": "pass",
+      "label": null,
+      "credits": 28.2,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:22:07.159Z",
+      "round": 3,
+      "lang": "ha",
+      "flow": "empty_history",
+      "status": "pass",
+      "label": null,
+      "credits": 53.55,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:29:10.512Z",
+      "round": 3,
+      "lang": "yo",
+      "flow": "history",
+      "status": "pass",
+      "label": null,
+      "credits": 92.92,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:35:34.710Z",
+      "round": 3,
+      "lang": "ha",
+      "flow": "history",
+      "status": "pass",
+      "label": null,
+      "credits": 99.48,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:40:44.688Z",
+      "round": 3,
+      "lang": "pcm",
+      "flow": "airtime",
+      "status": "pass",
+      "label": null,
+      "credits": 92.26,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:46:08.577Z",
+      "round": 3,
+      "lang": "pcm",
+      "flow": "history",
+      "status": "pass",
+      "label": null,
+      "credits": 84.98,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
+    },
+    {
+      "ts": "2026-11-23T20:53:29.877Z",
+      "round": 3,
+      "lang": "ig",
+      "flow": "history",
+      "status": "pass",
+      "label": null,
+      "credits": 91.1,
+      "reason": "",
+      "note": "Round 3: rerun after the 24-hour time and tile-icon fixes"
     }
   ]
 }

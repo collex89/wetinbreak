@@ -1,8 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { getTransactions, naira } from '../store'
 
+// Browsers have no Yoruba, Igbo or Hausa date data and fall back to the English
+// 12-hour clock, which adds "AM"/"PM". Numbers only, day first, 24-hour clock.
+const dateFormat = new Intl.DateTimeFormat('en-NG', {
+  day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+})
+
 export default function History({ go }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const items = getTransactions()
 
   return (
@@ -21,7 +27,7 @@ export default function History({ go }) {
                     ? t('airtime_label', { network: tx.network })
                     : t('bill_label', { company: tx.company })}
                 </strong>
-                <small>{new Date(tx.date).toLocaleString(i18n.language)}</small>
+                <small>{dateFormat.format(new Date(tx.date))}</small>
               </div>
               <span className="amount">{naira(tx.amount)}</span>
             </li>

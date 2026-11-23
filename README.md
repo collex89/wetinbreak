@@ -65,26 +65,25 @@ Numbers come from [baseline/SUMMARY.md](baseline/SUMMARY.md), [baseline-v2/SUMMA
 | Igbo | PASS | FAIL | FAIL | FAIL | FAIL |
 | Hausa | FAIL | FAIL | FAIL | FAIL | FAIL |
 
-**After the loop: 18 / 25 passing** (it was 8 / 25).
+**After the loop and one round of rechecks: 25 / 25 passing** (it was 8 / 25).
 
 | | signup | airtime | bill | history | empty history |
 |---|---|---|---|---|---|
 | English | PASS | PASS | PASS | PASS | PASS |
-| Pidgin | PASS | FAIL (test) | PASS | FAIL (test) | PASS |
-| Yoruba | PASS | PASS | PASS | FAIL (app) | PASS |
-| Igbo | PASS | PASS | PASS | FAIL (disputed) | PASS |
-| Hausa | FAIL (bug 6, fixed after, not rerun) | PASS | PASS | FAIL (app) | FAIL (tool) |
+| Pidgin | PASS | PASS (R3) | PASS | PASS (R3) | PASS |
+| Yoruba | PASS | PASS | PASS | PASS (R3) | PASS |
+| Igbo | PASS | PASS | PASS | PASS (R3) | PASS |
+| Hausa | PASS (R3) | PASS | PASS (R3) | PASS (R3) | PASS (R3) |
 
-- **2 loop rounds, 34 Kane runs, about 1,943 credits**, plus 1 manual recheck (about 84 credits). Total: **35 runs, about 2,027 credits**.
+- **2 loop rounds (34 Kane runs) plus 8 manual rechecks.** Total: **42 runs, about 2,570 credits**.
 - **Round 1** (17 runs): Claude Code fixed bugs 1 to 5 in one commit: three hardcoded strings swapped for `t('…')`, and the fixed-width/height buttons made to grow with their text.
-- **Round 2** (17 runs): 9 pairs went green. The round-2 fixer couldn't reach the API (a network error), so the loop stopped there.
+- **Round 2** (17 runs): 9 pairs went green, leaving 18 / 25. The round-2 fixer couldn't reach the API (a network error), so the loop stopped there.
 - **Bug 6** (missing Hausa `pay_bill`) needed a key *and* a test change, because the generator had built the English fallback "Pay bill" into the Hausa flows. The fixer correctly refused to touch tests, so I made both changes by hand and rechecked ha/bill once: it passed.
-- **Still red, and why:**
-  - **New real finding (yo, ha history):** History timestamps show an English "AM". Kane raised this itself, and it isn't one of the planted bugs.
-  - **ha signup:** this failed on bug 6 (English "Pay bill" on the Hausa home screen), which was fixed after the round and not rerun, to save credits.
-  - **Test issues (pcm airtime, pcm history):** Kane couldn't resolve the Pidgin "Buy credit" check, so it marked them as test issues.
-  - **ig history (disputed):** Kane flags the diacritic in "kaadị" on a label the locale file spells exactly as the test expects.
-  - **ha empty history:** Kane returned no Result.md (tool issue).
+- **Round 3** (7 runs, 23 Nov, every one passed first time) fixed the last 7 reds outside the loop. No test was changed:
+  - **A real bug Kane found on its own (yo, ha history):** timestamps showed an English "AM", because browsers have no Yoruba or Hausa date format and fall back to the English 12-hour clock. History now uses a numbers-only, day-first, 24-hour format (`23/11/2026, 21:12`).
+  - **pcm airtime, pcm history, ig history:** all three failed the same check. Kane's raw log shows it compared `'📱 Buy credit'` with `'Buy credit'`: the emoji icon was part of the button's text. (For Igbo, Kane's summary wrongly blamed a missing diacritic; the locale and test strings are byte-identical.) The icon is now drawn by CSS with empty alt text, so the button's text and accessible name are just the label. That is also a real screen-reader fix.
+  - **ha signup, ha empty history:** rerun after the bug 6 fix (signup had failed on "Pay bill"; empty history had last hit a Kane tool error).
+- **Caveat:** the 18 pairs that were already green were not rerun after the round-3 changes. Those changes touch the Home and History screens that every flow passes through, so a full 25-pair rerun on the final build would make this result airtight.
 
 ## Honesty section
 

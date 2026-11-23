@@ -33,9 +33,9 @@
       "reason": ""
     },
     "airtime": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"the home screen has a button that reads exactly \"Buy credit\"\" — bug verdict: Buy credit label assertion resolves to placeholder [automation_bug/locator_rot, confidence 0.98]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "bill": {
       "status": "pass",
@@ -43,9 +43,9 @@
       "reason": ""
     },
     "history": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"The home screen has a button that reads exactly \"Buy credit\".\" — bug verdict: Buy credit check uses an unresolved placeholder [automation_bug/config_issue, confidence 0.98]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "empty_history": {
       "status": "pass",
@@ -70,9 +70,9 @@
       "reason": ""
     },
     "history": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Yoruba transaction timestamp retains English AM marker [application_issue/ui_data_defect, confidence 0.93]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "empty_history": {
       "status": "pass",
@@ -97,9 +97,9 @@
       "reason": ""
     },
     "history": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"The home screen has a button that reads exactly \"Zụta kaadị oku\".\" — bug verdict: Igbo buy-airtime button omits the diacritic in “kaadị” [application_issue/ui_data_defect, confidence 0.97]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "empty_history": {
       "status": "pass",
@@ -109,9 +109,9 @@
   },
   "ha": {
     "signup": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Hausa home screen leaves Pay bill untranslated [application_issue/ui_data_defect, confidence 0.98]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "airtime": {
       "status": "pass",
@@ -124,14 +124,14 @@
       "reason": "Manual recheck after adding Hausa pay_bill and regenerating ha flows"
     },
     "history": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Final verification failed: \"there is no English text on screen except the brand 'WetinBreak Pay', network names, electricity company names and numbers. The person's name 'Ada Obi' and the language names in the language picker are also allowed.\" — bug verdict: Hausa transaction history leaves English AM timestamp marker [application_issue/ui_data_defect, confidence 0.97]"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     },
     "empty_history": {
-      "status": "fail",
-      "round": 2,
-      "reason": "Kane produced no Result.md"
+      "status": "pass",
+      "round": 3,
+      "reason": ""
     }
   }
 }
